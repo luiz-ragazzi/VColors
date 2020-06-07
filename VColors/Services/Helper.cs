@@ -10,7 +10,7 @@ namespace VColors
 {
     public static class Helper
     {
-        public static RenderTargetBitmap DrawBitmapSorted(this Dictionary<float, List<KnownColor>> Colors, HashSet<float> set)
+        public static RenderTargetBitmap DrawBitmapSorted(this Dictionary<float, List<System.Drawing.Color>> Colors, HashSet<float> set)
         {          
 
             var hueBrush = new List<ColorBrush>();
@@ -27,8 +27,7 @@ namespace VColors
                 var colors = Colors[hue];
                 foreach (var c in colors)
                 {
-                    var color = System.Drawing.Color.FromKnownColor(c);
-                    var brush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(color.A, color.R, color.G, color.B));
+                    var brush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(c.A, c.R, c.G, c.B));
                     Brushes.Add(brush);
                 }
                 hueBrush.Add(new ColorBrush() { Brushes = Brushes, Hue = hue });
@@ -39,17 +38,17 @@ namespace VColors
             {
                 var rand = new Random();
 
-                for (int a = 0; a < 100; a++)
-                {
+                //for (int a = 0; a < 100; a++)
+                //{
                     for (int i = 0; i < hueBrush.Count; i++)
                     {
                         for (int j = 0; j < hueBrush[i].Brushes.Count; j++)
                         {
 
-                            dc.DrawRectangle(hueBrush[i].Brushes[j], null, new Rect(i + a, rand.NextDouble() * 200, 1, 1));
+                            dc.DrawRectangle(hueBrush[i].Brushes[j], null, new Rect(i, rand.NextDouble() * 200, 1, 1));
                         }
                     }
-                }
+                //}
 
                 dc.Close();
 
@@ -63,17 +62,17 @@ namespace VColors
         }
 
 
-        public static RenderTargetBitmap DrawBitmap(this Dictionary<float, List<KnownColor>> Colors)
+        public static RenderTargetBitmap DrawBitmap(this Dictionary<float, List<System.Drawing.Color>> Colors)
         {
            
             var brushes = new List<SolidColorBrush>();
 
-            foreach (KeyValuePair<float, List<KnownColor>> c in Colors)
+            foreach (KeyValuePair<float, List<System.Drawing.Color>> c in Colors)
             {
                 foreach (var color in c.Value)
                 {
-                    var thecolor = System.Drawing.Color.FromKnownColor(color);
-                    var brush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(thecolor.A, thecolor.R, thecolor.G, thecolor.B));
+                  
+                    var brush = new SolidColorBrush(System.Windows.Media.Color.FromArgb(color.A, color.R, color.G, color.B));
                     brushes.Add(brush);
                 }
             }
@@ -85,15 +84,15 @@ namespace VColors
             {
                 Random rand = new Random();
 
-                for (int x = 0; x < 50; x++)
-                {
+                //for (int x = 0; x < 50; x++)
+                //{
                     for (int i = 0; i < brushes.Count; i++)
                     {
 
                         dc.DrawRectangle(brushes[i], null, new Rect(rand.NextDouble() * 200, rand.NextDouble() * 200, 1, 1));
 
                     }
-                }
+                //}
                 dc.Close();
             }
             rtb.Render(dv);
